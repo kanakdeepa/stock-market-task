@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 import { getCompanyDetails } from '../services/stockService';
 import { NavLink } from 'react-router-dom';
+import loader from '../assets/img/rollingLoader.svg';
 
 class StockCard extends Component {
   state = {
@@ -46,7 +47,7 @@ class StockCard extends Component {
             )}
             {errorMessage ? <CardText>{errorMessage}</CardText> : null}
 
-            {loading ? 'Loading' : null}
+            {loading ? <img src={loader} alt="loading" /> : null}
           </CardBody>
         </Card>
       </NavLink>

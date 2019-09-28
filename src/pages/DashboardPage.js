@@ -1,6 +1,7 @@
 import Page from 'components/Page';
 import React from 'react';
 import { Button, Col, Row } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
 class DashboardPage extends React.Component {
   componentDidMount() {
@@ -13,9 +14,11 @@ class DashboardPage extends React.Component {
       <Page className="DashboardPage" title="Dashboard">
         <Row>
           <Col sm={6} xs={12}>
-            <Button color="success" size="lg" block>
-              Search Stock Peers
-            </Button>
+            <NavLink to="/search">
+              <Button color="success" size="lg" block>
+                Search Stock Peers
+              </Button>
+            </NavLink>
           </Col>
         </Row>
       </Page>

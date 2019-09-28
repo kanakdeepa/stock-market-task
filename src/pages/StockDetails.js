@@ -1,15 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Page from 'components/Page';
-import {
-  Table,
-  Row,
-  Col,
-  UncontrolledButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Card,
-} from 'reactstrap';
+import { Table, Row, Col, Button, Card, CardBody, CardText } from 'reactstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { showCompanyDetails, showChart } from '../actions';
+import { withRouter } from 'react-router';
+
 // import { Line } from 'react-chartjs-2';
 
 // const genLineData = (moreData = {}, moreData2 = {}) => {
@@ -52,62 +47,100 @@ import {
 //   };
 // };
 
-const StockDetails = () => {
+const StockDetails = props => {
+  const companyDetails = useSelector(state => state.stockState.companyDetails);
+  const chartData = useSelector(state => state.stockState.chart);
+  const [duration, setDuration] = useState('1m');
+
+  const dispatch = useDispatch();
+
+  /* Passing in an empty array [] of inputs tells React that your effect doesn't depend on any values from the component, so that effect would run only on mount and clean up on unmount; it won't run on updates. */
+  useEffect(() => {
+    const stockQuote = props.match.params.quote;
+    dispatch(showCompanyDetails(stockQuote));
+    dispatch(showChart(stockQuote));
+  }, []);
+
+  const durationChangeHandler = duration => {
+    // Dispatch action to get chart data
+    const stockQuote = props.match.params.quote;
+    dispatch(showChart(stockQuote, duration));
+    setDuration(duration);
+  };
+
   return (
-    <Page title="Apple Inc">
-      <Row>
-        <Col xs={12} sm={6}>
-          <UncontrolledButtonDropdown>
-            <DropdownToggle
-              caret
-              color="primary"
-              className="text-capitalize m-1"
-            >
-              Select Duration
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>1 Month</DropdownItem>
-              <DropdownItem>3 Month</DropdownItem>
-              <DropdownItem>6 Month</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledButtonDropdown>
-        </Col>
-      </Row>
+    <Page title={companyDetails && companyDetails.companyName}>
+      <Card style={{ marginBottom: 15 }}>
+        <CardBody>{companyDetails && companyDetails.description}</CardBody>
+      </Card>
+
       {/* <Line data={genLineData({ fill: false }, { fill: false })} /> */}
       <Card>
-        <Table size="sm">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </Table>
+        {chartData && chartData === 'NOT_FOUND' ? (
+          <div
+            style={{
+              background: 'orange',
+              padding: '10px 15px',
+              borderRadius: 3,
+            }}
+          >
+            Data Not Found
+          </div>
+        ) : chartData.length ? (
+          <>
+            <Row>
+              <Col xs={12} sm={6}>
+                <Button
+                  outline={!(duration === '1m')}
+                  onClick={() => durationChangeHandler('1m')}
+                >
+                  1 Month
+                </Button>{' '}
+                <Button
+                  outline={!(duration === '3m')}
+                  onClick={() => durationChangeHandler('3m')}
+                >
+                  3 Month
+                </Button>{' '}
+                <Button
+                  outline={!(duration === '6m')}
+                  onClick={() => durationChangeHandler('6m')}
+                >
+                  6 Month
+                </Button>
+              </Col>
+            </Row>
+            <Table size="sm">
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: 15 }}>Date</th>
+                  <th>Open</th>
+                  <th>Close</th>
+                  <th>High</th>
+                  <th>Low</th>
+                  <th>Volume</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chartData.map((data, i) => (
+                  <tr key={i}>
+                    <th scope="row" style={{ paddingLeft: 15 }}>
+                      {data.date}
+                    </th>
+                    <td>${data.open}</td>
+                    <td>${data.close}</td>
+                    <td>${data.high}</td>
+                    <td>${data.low}</td>
+                    <td>${data.volume}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </>
+        ) : null}
       </Card>
     </Page>
   );
 };
 
-export default StockDetails;
+export default withRouter(StockDetails);

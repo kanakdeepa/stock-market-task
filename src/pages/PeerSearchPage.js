@@ -9,8 +9,6 @@ import {
   InputGroupAddon,
   Card,
   CardBody,
-  CardTitle,
-  CardText,
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchPeers } from '../actions';
@@ -22,7 +20,9 @@ const PeerSearchPage = () => {
 
   const [quote, setQuote] = useState('');
 
-  const clickHandler = () => {
+  const submitHandler = evt => {
+    evt.preventDefault();
+
     dispatch(searchPeers(quote));
   };
 
@@ -30,28 +30,40 @@ const PeerSearchPage = () => {
     <Page title="Search Peers">
       <Row>
         <Col xs={12}>
-          <InputGroup>
-            <Input
-              placeholder="Search Stock Quote. Ex: AAPL"
-              onChange={e => setQuote(e.target.value)}
-              value={quote}
-            />
-            <InputGroupAddon addonType="append">
-              <Button color="success" onClick={clickHandler}>
-                Search Peers
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
+          <form onSubmit={submitHandler}>
+            <InputGroup>
+              <Input
+                placeholder="Search Stock Quote. Ex: AAPL"
+                onChange={e => setQuote(e.target.value)}
+                value={quote}
+              />
+              <InputGroupAddon addonType="append">
+                <Button color="success">Search Peers</Button>
+              </InputGroupAddon>
+            </InputGroup>
+          </form>
         </Col>
       </Row>
 
-      <Row>
-        {peers.map((peer, i) => (
-          <Col sm={4} xs={12} key={i}>
-            <StockCard symbol={peer} />
-          </Col>
-        ))}
-      </Row>
+      {peers && peers === 'NOT_FOUND' ? (
+        <div
+          style={{
+            background: 'orange',
+            padding: '10px 15px',
+            borderRadius: 3,
+          }}
+        >
+          Unknown Symbol
+        </div>
+      ) : peers.length ? (
+        <Row>
+          {peers.map((peer, i) => (
+            <Col sm={4} xs={12} key={i}>
+              <StockCard symbol={peer} />
+            </Col>
+          ))}
+        </Row>
+      ) : null}
     </Page>
   );
 };
