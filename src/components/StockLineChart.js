@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
+import PropTypes from 'prop-types';
 
 const StockLineChart = props => {
   const [lineData, setLineData] = useState(null);
@@ -46,3 +47,8 @@ const StockLineChart = props => {
 };
 
 export default StockLineChart;
+
+StockLineChart.propTypes = {
+  data: PropTypes.array.isRequired,
+  params: PropTypes.array,
+};

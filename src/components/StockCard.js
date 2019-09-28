@@ -3,6 +3,7 @@ import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 import { getCompanyDetails } from '../services/stockService';
 import { NavLink } from 'react-router-dom';
 import loader from '../assets/img/rollingLoader.svg';
+import PropTypes from 'prop-types';
 
 class StockCard extends Component {
   state = {
@@ -56,3 +57,7 @@ class StockCard extends Component {
 }
 
 export default StockCard;
+
+StockCard.propTypes = {
+  symbol: PropTypes.string.isRequired,
+};

@@ -7,8 +7,6 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  Card,
-  CardBody,
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchPeers } from '../actions';

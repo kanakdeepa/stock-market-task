@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Page from 'components/Page';
-import { Table, Row, Col, Button, Card, CardBody, CardText } from 'reactstrap';
+import { Table, Row, Col, Button, Card, CardBody } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { showCompanyDetails, showChart } from '../actions';
 import { withRouter } from 'react-router';
