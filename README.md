@@ -5,7 +5,7 @@ API used - https://iexcloud.io
 
 ## Preview
 
-Here is a preview of the working solution [preview preview](http://deepa-stock.surge.sh/).
+Here is a preview of the working solution (http://deepa-stock.surge.sh/).
 
 ## Quick Start
 
