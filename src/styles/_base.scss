@@ -1,5 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i);
-// @import url(https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i);
+@import url(https://fonts.googleapis.com/css?family=OpenSans:500);
 
 /* Font Smoothing */
 body,
@@ -28,7 +27,7 @@ button,
 .alert {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: Poppins, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Poppins, Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: $font-weight-normal;
 }
 
@@ -39,4 +38,12 @@ button,
   padding: 0;
   margin: 0;
   overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  &:hover {
+    color: $primary;
+    text-decoration: none;
+  }
 }

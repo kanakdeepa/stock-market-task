@@ -10,7 +10,7 @@ import {
   DropdownItem,
   Card,
 } from 'reactstrap';
-import { Line } from 'react-chartjs-2';
+// import { Line } from 'react-chartjs-2';
 
 // const genLineData = (moreData = {}, moreData2 = {}) => {
 //   return {
